@@ -1,0 +1,144 @@
+﻿extends layout
+
+
+block content
+  include  head 
+  -var pu_device_name= device_name
+  -var pu_version_os= version_os
+  -var pu_version_cam= version_cam
+  -var pu_camera_status= camera_status
+  -var pu_cam_serial_number= cam_serial_number
+  -var pu_serial_number= serial_number
+  -var pu_mac_address= mac_address
+  if (upload_status=='success') 
+    div(class='alert alert-success mt-2',role='alert')= 'Upload file success!!, please press "Restart and update device" to continue '
+  else if (upload_status=='error')
+    div(class='alert alert-danger mt-2',role='alert')= 'Fail! only img file can be uploaded'
+  if (config_status=='success') 
+      div(class='alert alert-success mt-2',role='alert')= 'Change update successfully!'
+  ul 
+    li 
+      h5 System Information
+      ul
+        form(action='/config',method='post')
+          li
+            div(class='config_top')
+              label(for='input_device_name')= 'Device name'              
+            input(type='text',maxlength='32',class='form control input_device_name',name='deviceName',id='input_device_name',placeholder='Enter device name',aria-describedby='deviceName',value=pu_device_name)
+            button(name="config_btn",class='btn btn-primary',value="save")= 'Save'
+            small(id='deviceName',class='form-text text-muted')= "Please update your device name here"
+          li
+            div(class='config_top')
+              label(for='input_version_os')= 'Serial Number'
+            -if(pu_version_os!='')
+                input(type='text',class='form-control',name='inputSerialNumber',id='input_serial_number',value=pu_serial_number,readonly)
+            -else
+                input(type='text',class='form-control',name='inputSerialNumber',id='input_serial_number',value='N/A',readonly)
+          li
+            div(class='config_top')
+              label(for='input_MAC_address')= 'MAC Address'
+            -if(pu_version_os!='')
+                input(type='text',class='form-control',name='inputSerialNumber',id='input_mac_address',value=pu_mac_address,readonly)
+            -else
+                input(type='text',class='form-control',name='inputSerialNumber',id='input_mac_address',value='N/A',readonly)
+          li
+            div(class='config_top')
+              label(for='input_version_os')= 'OS Version'
+            -if(pu_version_os!='')
+                input(type='text',class='form-control',name='inputVersionOS',id='input_version_os',value=pu_version_os,readonly)
+            -else
+                input(type='text',class='form-control',name='inputVersionOS',id='input_version_os',value='N/A',readonly)
+          li
+            div(class='config_top')
+              label(for='input_version_cam')= 'Camera Version'
+              -if(pu_camera_status!="true")
+                input(type='text',class='form-control',name='inputVersionCam',id='input_version_cam',value="Undetected",readonly)
+              -else
+                - if(pu_version_cam!='')
+                  input(type='text',class='form-control',name='inputVersionCam',id='input_version_cam',value=pu_version_cam,readonly)
+                - else
+                  input(type='text',class='form-control',name='inputVersionCam',id='input_version_cam',value='N/A',readonly)    
+          li
+            div(class='config_top')
+              label(for='input_version_os')= 'Camera Serial Number'
+            -if(pu_version_os!='')
+                input(type='text',class='form-control',name='inputSerialNumber',id='input_cam_serial_number',value=pu_cam_serial_number,readonly)
+            -else
+                input(type='text',class='form-control',name='inputSerialNumber',id='input_cam_serial_number',value='N/A',readonly)
+  ul 
+    li 
+      h5 Maintenance 
+    ul 
+      li
+        form(action='/con_upload',method='post',class='py-1',enctype="multipart/form-data")
+          div Please select Firmware file
+          div(class='config_top')
+            input(type="file",class="input_table",name="update_img",id="fileinput")  
+            button(type='submit',class='btn btn-primary',style="margin-left: 10px")= 'Upload'
+          div(class='upload',style="display:none")  
+            div(class="inner")    
+          p(id="percent",class="pervent_txt")
+      li(class="file_size",style="list-style-type:none") 
+        form(action='/update_img',method='post',class='py-1',enctype="multipart/form-data")       
+          if(host_img != 0)
+            input(type='text',class='form-control',value="Firmware file size: " +host_img +"KB",disabled)
+            button(class='btn btn-primary update',style="margin-top: 10px")= 'Restart and update device'
+          else 
+            input(type='text',class='form-control',value="Not uploaded firmware file",disabled)
+      li 
+        form(action='/config',method='post')
+          div(class='config_top') System login out and restart
+          button(name="config_btn",class='btn btn-primary',value="restart",style="margin-bottom:10px")= 'Restart'
+      li
+        form(action='/config',method='post')
+          div(class='config_top') Reset device to factory settings
+          button(name="config_btn",class='btn btn-primary',value="load_default")= 'Factory Reset'
+
+
+  script(type='text/javascript').
+      // 獲取form表單
+      var form = document.querySelectorAll("form");
+      // 獲取提交鍵
+      var submit = document.querySelector("button[type=submit]");
+      // 更新進度條event
+      var update = document.querySelector(".update");
+      // 獲取進度條
+      var inner = document.querySelector(".inner");
+      //四捨五入上傳狀態計算
+      function formatFloat(num, pos)
+      {
+         var size = Math.pow(10, pos);
+         return Math.round(num * size) / size;
+      }
+      // 為提交鍵設定事件
+      submit.onclick = function(){　
+        // 執行時隱藏按鈕與顯示更新條        
+        document.querySelector(".upload").style.display="inline-block";
+        this.style="display:none";
+        document.querySelector(".file_size").style.display="none";
+        // 利用FormData快速格式化form表單
+        var formObj = new FormData(form[1]);
+        // 建立xhr物件
+        var xhr = new XMLHttpRequest();
+        // 設定上傳方式和網址
+        xhr.open('post','data.php');
+        // 因為FormData已經格式化好了，所以不用設定請求頭了
+        // 每當上傳進度變化時就觸發progress事件，改變進度條長度
+        xhr.upload.onprogress = function(e){
+          //顯示上傳%比例
+          if(e.loaded == e.total)
+            document.querySelector("#percent").innerHTML = "Decompressing file...";
+          else
+            document.querySelector("#percent").innerHTML = "Uploading file..."+formatFloat((e.loaded / e.total)*100,2)+"%";
+          // 398為進度條最大長度
+          inner.style.width = ((e.loaded / e.total) * 398) + 'px';
+        }
+        // 傳送請求，將格式化後的form表單作為傳送主體
+        xhr.send(formObj);
+      }
+      update.onclick = function(){
+        this.style="display:none";
+        document.getElementById('update_message').innerHTML = 'Firmware is updating, Please wait...';
+
+      }
+   

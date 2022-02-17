@@ -1,0 +1,85 @@
+﻿extends layout
+
+
+block content
+  include  head 
+  - var pu_version_cam= version_cam
+  if (upload_status=='success') 
+    div(class='alert alert-success mt-2',role='alert')= 'Upload file success!!'
+  else if (upload_status=='error')
+    div(class='alert alert-danger mt-2',role='alert')= 'Fail! only fw bin file can be uploaded'
+  else if (upload_status=='fail')
+    div(class='alert alert-danger mt-2',role='alert')= 'Update firmware fail! Please check your device or firmawre is correct'
+  ul 
+    li
+      form(action='/fw_upload',method='post',class='py-4',enctype="multipart/form-data")
+        div(class='form-group')
+         h5 Please select Firmware Bin file
+        div(class='form-group')
+         input(type="file",class="input_table",name="update_img",id="fileinput")  
+        div(class='upload',style="display:none")  
+         div(class="inner")    
+        p(id="percent",class="pervent_txt")
+        div(class='form-group')
+         button(type='submit',class='btn btn-primary')= 'Upload'
+    li(class="file_size") 
+      h5 Currently firmware bin file status:
+      form(action='/update_fw',method='post',class='py-1',enctype="multipart/form-data")       
+        if(host_bin !='')
+         input(type='text',class='form-control',value="firmware.bin file size: " +host_bin +"KB",disabled)
+        else 
+         input(type='text',class='form-control',value="Not uploaded firmware.bin file",disabled)
+        h6 Camera Version:
+        if(camera_detecte=='true')
+          input(type='text',class='form-control',name='inputVersionCam',id='input_version_cam',value=pu_version_cam,readonly)
+          if(host_bin !='') 
+            button(class='btn btn-primary update',style="margin-top: 10px")= 'Update firmware'
+            p(id= 'update_message')
+        else
+          input(type='text',class='form-control',name='inputVersionCam',id='input_version_cam',value='Undetected camera',readonly)
+
+
+  script(type='text/javascript').
+      // 獲取form表單
+      var form = document.querySelector("form");
+      // 獲取提交鍵
+      var submit = document.querySelector("button[type=submit]");
+      // 更新進度條event
+      var update = document.querySelector(".update");
+      // 獲取進度條
+      var inner = document.querySelector(".inner");
+      //四捨五入上傳狀態計算
+      function formatFloat(num, pos)
+      {
+         var size = Math.pow(10, pos);
+         return Math.round(num * size) / size;
+      }
+      // 為提交鍵設定事件
+      submit.onclick = function(){　
+        // 執行時隱藏按鈕與顯示更新條        
+        document.querySelector(".upload").style.display="inline-block";
+        this.style="display:none";
+        document.querySelector(".file_size").style.display="none";
+        // 利用FormData快速格式化form表單
+        var formObj = new FormData(form);
+        // 建立xhr物件
+        var xhr = new XMLHttpRequest();
+        // 設定上傳方式和網址
+        xhr.open('post','data.php');
+        // 因為FormData已經格式化好了，所以不用設定請求頭了
+        // 每當上傳進度變化時就觸發progress事件，改變進度條長度
+        xhr.upload.onprogress = function(e){
+          //顯示上傳%比例
+          document.querySelector("#percent").innerHTML = "Uploading file..."+formatFloat((e.loaded / e.total)*100,2)+"%";
+          // 398為進度條最大長度
+          inner.style.width = ((e.loaded / e.total) * 398) + 'px';
+        }
+        // 傳送請求，將格式化後的form表單作為傳送主體
+        xhr.send(formObj);
+      }
+      update.onclick = function(){
+        this.style="display:none";
+        document.getElementById('update_message').innerHTML = 'Firmware is updating, Please wait...';
+
+      }
+   

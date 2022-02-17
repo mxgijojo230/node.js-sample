@@ -1,0 +1,25 @@
+﻿extends layout
+
+block content
+  include  head
+  if (input_status=='fail')
+    div(class='alert alert-danger mt-2',role='alert')= "Your password or account can't start or end with a blank space"
+  else if (input_status=='success') 
+    div(class='alert alert-success mt-2',role='alert')= 'Change update successfully!'
+  else if (input_status=='not_match')
+    div(class='alert alert-danger mt-2',role='alert')= 'Your input passwords dose not match'
+  form(action='/account',method='post',class='pt-4')
+    h5 Change the login account and passwords
+    ul
+      li
+        div(class='form-group') 
+          label(for='new_account')= 'New account'
+          input(type='text',class='form-control',name='input_new_account')
+      li  
+        div(class='form-group')
+          label(for='new_password')= 'New passwords'
+          input(type='password',class='form-control',name='input_new_password')
+      li
+        label(for='new_password')= 'Confirm new passwords'
+        input(type='password',class='form-control',name='input_ck_password')
+      button(type='submit',class='btn btn-primary',style="margin-top: 10px")= 'Save Change'

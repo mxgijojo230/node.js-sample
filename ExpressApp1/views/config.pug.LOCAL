@@ -1,0 +1,70 @@
+extends layout
+
+block content
+  - var pu_device_name= device_name
+  - var pu_dhcp_on_value= dhcp_on_value
+  - var pu_ip_address_value= ip_address_value
+  - var pu_mask_address= mask_address
+  - var pu_gateway_address= gateway_address
+  - var pu_dns_address= dns_address
+  - var pu_NTP_address= NTP_address
+  - var pu_version_os= version_os
+  - var pu_version_cam= version_cam
+  script(src='/javascripts/ae400.js')
+  form(action='/config',method='post',class='py-4')
+    div(class='form-group')
+      label(for='input_device_name')= 'Device name'
+      - if(pu_device_name!='')
+        input(type='text',class='form-control',name='deviceName',id='input_device_name',placeholder='LIPSedge AE400',aria-describedby='deviceName',value=pu_device_name)
+      - else
+        input(type='text',class='form-control',name='deviceName',id='input_device_name',aria-describedby='deviceName',placeholder='Enter device name')
+      small(id='deviceName',class='form-text text-muted')= "Please update your device name here"
+    div(class='form-group')
+      label(for='input_version_os')= 'OS Version'
+      - if(pu_version_os!='')
+        input(type='text',class='form-control',name='inputVersionOS',id='input_version_os',value=pu_version_os,readonly)
+      - else
+        input(type='text',class='form-control',name='inputVersionOS',id='input_version_os',value='N/A',readonly)
+    div(class='form-group')
+      label(for='input_version_os')= 'Camera Version'
+      - if(pu_version_cam!='')
+        input(type='text',class='form-control',name='inputVersionCam',id='input_version_cam',value=pu_version_cam,readonly)
+      - else
+        input(type='text',class='form-control',name='inputVersionCam',id='input_version_cam',value='N/A',readonly)
+    div(class='form-group')
+      - if(pu_dhcp_on_value=='dhcp_on')
+        input(type='checkbox',class='form-check-input',name='inputDhcpOn',id='input_dhcp_on',value='dhcp_on',onchange="hdcpCheck()",checked)
+      - else
+        input(type='checkbox',class='form-check-input',name='inputDhcpOn',id='input_dhcp_on',value='dhcp_on',onchange="hdcpCheck()")
+      label(for='input_dhcp_on',class='form-check-label')= 'Use DHCP'
+    div(class='form-group')
+      label(for='input_ip_address')= 'IP address'
+      - if(pu_ip_address_value!='')
+        input(type='text',class='form-control',name='inputIpAddress',id='input_ip_address',value=pu_ip_address_value,required="/^[\S \s*\S ] $/ig",pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+      - else
+        input(type='text',class='form-control',name='inputIpAddress',id='input_ip_address',value=pu_ip_address_value,required="/^[\S \s*\S ] $/ig",pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+      label(for='input_subnetmask_address')= 'Subnet mask'
+      - if(pu_mask_address!='')
+        input(type='text',class='form-control',name='inputMaskAddress',id='input_mask_address',required="/^[\S \s*\S ] $/ig",value=pu_mask_address,pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+      - else
+        input(type='text',class='form-control',name='inputMaskAddress',id='input_mask_address',required="/^[\S \s*\S ] $/ig",value=pu_mask_address,pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+      label(for='input_gateway_address')= 'Default gateway'
+      - if(pu_gateway_address!='')
+        input(type='text',class='form-control',name='inputGatewayAddress',id='input_gateway_address',value=pu_gateway_address,required="/^[\S \s*\S ] $/ig",pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+      - else
+        input(type='text',class='form-control',name='inputGatewayAddress',id='input_gateway_address',value=pu_gateway_address,required="/^[\S \s*\S ] $/ig",pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+      label(for='input_dns_address')= 'DNS'
+      - if(pu_dns_address!='')
+        input(type='text',class='form-control',name='inputDnsAddress',id='input_dns_address',value=pu_dns_address,pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+      - else
+        input(type='text',class='form-control',name='inputDnsAddress',id='input_dns_address',value=pu_dns_address,pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+
+      label(for='input_NTP_address')= 'Connect NTP server IP'
+      - if(pu_NTP_address!='')
+        input(type='text',class='form-control',name='inputNTPAddress',id='input_NTP_address',value=pu_NTP_address,pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",enabled)
+      - else
+        input(type='text',class='form-control',name='inputNTPAddress',id='input_NTP_address',value=pu_NTP_address,pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",enabled)
+
+    button(type='submit',class='btn btn-primary')= 'Apply and logout'
+  form(action='/NTP',method='post',class='py-1')
+    button(type='submit',class='btn btn-primary')= 'NTP server connect'

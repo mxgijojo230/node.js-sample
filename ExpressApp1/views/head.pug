@@ -1,0 +1,35 @@
+﻿extends layout
+
+block content
+    ul(class="nav nav-pills",style="border-bottom-style: ridge")
+      li(class="nav-item")
+        if(visited=="ip")
+          a(class="nav-link active", href="ip",style="background-color: #21252982") IP setting
+        else
+          a(class="nav-link" href="ip") IP setting
+      li(class="nav-item")     
+        if(visited=="config")
+          a(class="nav-link active" href="config",style="background-color: #21252982") System Maintenance
+        else
+          a(class="nav-link" href="config") System Maintenance
+      li(class="nav-item")
+        if(visited=="ntp")
+          a(class="nav-link active" href="ntp",style="background-color: #21252982") Time synchronization
+        else
+          a(class="nav-link " href="ntp") Time synchronization
+      //li(class="nav-item")
+        if(visited=="upload")
+          a(class="nav-link active" href="upload",style="background-color:#21252982") Upload file
+        else        
+          a(class="nav-link" href="upload") Upload file
+      //li(class="nav-item")
+        if(visited=="fw")
+          a(class="nav-link active" href="fw",style="background-color: #21252982") Update Device Firmware
+        else        
+          a(class="nav-link" href="fw") Update Device Firmware
+      li(class="nav-item")
+        if(visited=="account")
+          a(class="nav-link active" href="account",style="background-color: #21252982") Account
+        else        
+          a(class="nav-link" href="account") Account
+

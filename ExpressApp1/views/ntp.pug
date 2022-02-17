@@ -1,0 +1,23 @@
+﻿extends layout
+
+block content
+  include  head
+  //基本寫法
+  - var pu_time= input_time
+  - var pu_NTP_address= NTP_address
+  - var pu_NTP_error= NTP_error
+  if (NTP_status=='success') 
+    div(class='alert alert-success mt-2',role='alert')= 'Connect NTP server success and date has been adjusted '+pu_time
+  else if (NTP_status=='error')
+    div(class='alert alert-danger mt-2',role='alert')= pu_NTP_error
+  form(action='/NTP',method='post',class='py-4')
+    div(class='form-group')
+      h5 Connect NTP server IP
+      - if(pu_NTP_address!='')
+        input(type='text',class='form-control',name='inputNTPAddress',id='input_NTP_address',value=pu_NTP_address,enabled)
+      - else
+        input(type='text',class='form-control',name='inputNTPAddress',id='input_NTP_address',value=pu_NTP_address,enabled)
+      //show time
+      small(id='showtime',class='form-text text-dark')='System time: '+pu_time
+    button(type='submit',class='btn btn-primary')= 'NTP server connect'
+

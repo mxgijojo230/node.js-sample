@@ -1,0 +1,60 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.input_table {
+    background-color:antiquewhite;
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 32px;
+    width: 411px;
+}
+.input_device_name {
+    border: 2px solid #272323;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.upload {
+    width: 400px;
+    height: 10px;
+    border: 2px solid #adadad;
+    border-radius: 40px;
+    margin: 10px;
+    margin-left: -2px;
+    position: relative;
+}
+
+.inner {
+    display: inline-block;
+    position: absolute;
+    border-radius: 4px;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: rgb(98, 230, 74);
+    transition: width 0.3s ease-out;
+}
+.config_top {
+    margin-top: 15px;
+}
+.pervent_txt {
+    margin-top: -20px;
+}
+
+#update_message{
+    font-size: large;
+    color: red;
+    font-style: italic;
+}
+.load_default{
+    width: 400px;
+    height: 10px;
+}
+

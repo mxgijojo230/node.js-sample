@@ -1,0 +1,1 @@
+{"device_name":"LIPSedge AE400","version":{"os":"v2.5","cam":"5.12.7.100"},"network":{"dhcp_on":false,"ip_address":"192.168.0.100","subnet_mask":"255.255.255.0","gateway":"192.168.0.254","dns":"8.8.8.8","NTP":"192.168.0.101"},"account":"admin","passwd":"LIPS"}

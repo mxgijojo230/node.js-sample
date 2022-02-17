@@ -1,0 +1,50 @@
+﻿extends layout
+
+
+block content
+  include  head
+  - var pu_dhcp_on_value= dhcp_on_value
+  - var pu_ip_address_value= ip_address_value
+  - var pu_mask_address= mask_address
+  - var pu_gateway_address= gateway_address
+  - var pu_dns_address= dns_address
+  script(src='/javascripts/ae400.js')
+  form(action='/IP',method='post',class='py-4')
+   ul
+     div(class='form-group')
+       - if(pu_dhcp_on_value==true)
+           input(type='checkbox',class='form-check-input',name='inputDhcpOn',id='input_dhcp_on',value='dhcp_on',onchange="hdcpCheck()",checked)
+       - else
+           input(type='checkbox',class='form-check-input',name='inputDhcpOn',id='input_dhcp_on',value='dhcp_on',onchange="hdcpCheck()")
+       label(for='input_dhcp_on',class='form-check-label')= 'Use DHCP'     
+     li 
+       div(class='form-group')
+         label(for='input_ip_address')= 'IP address'
+         - if(pu_ip_address_value!='')
+           input(type='text',class='form-control',name='inputIpAddress',id='input_ip_address',value=pu_ip_address_value,required="/^[\S \s*\S ] $/ig",pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+         - else
+           input(type='text',class='form-control',name='inputIpAddress',id='input_ip_address',value=pu_ip_address_value,required="/^[\S \s*\S ] $/ig",pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+     li
+        label(for='input_subnetmask_address')= 'Subnet mask'
+        - if(pu_mask_address!='')
+          input(type='text',class='form-control',name='inputMaskAddress',id='input_mask_address',required="/^[\S \s*\S ] $/ig",value=pu_mask_address,pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+        - else
+          input(type='text',class='form-control',name='inputMaskAddress',id='input_mask_address',required="/^[\S \s*\S ] $/ig",value=pu_mask_address,pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+     li      
+        label(for='input_gateway_address')= 'Default gateway'
+        - if(pu_gateway_address!='')
+          input(type='text',class='form-control',name='inputGatewayAddress',id='input_gateway_address',value=pu_gateway_address,required="/^[\S \s*\S ] $/ig",pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+        - else
+          input(type='text',class='form-control',name='inputGatewayAddress',id='input_gateway_address',value=pu_gateway_address,required="/^[\S \s*\S ] $/ig",pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+     li 
+       label(for='input_dns_address')= 'DNS'
+       - if(pu_dns_address!='')
+         input(type='text',class='form-control',name='inputDnsAddress',id='input_dns_address',value=pu_dns_address,pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+       - else
+         input(type='text',class='form-control',name='inputDnsAddress',id='input_dns_address',value=pu_dns_address,pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",disabled)
+     button(type='submit',class='btn btn-primary',style="margin-top: 10px")= 'Apply and logout'
+  form(action='/SSL',method='post',class='py-4')
+    ul
+      li
+         label Download SSL certification
+      button(type='submit',class='btn btn-primary',style="margin-top: 10px")= 'Download'

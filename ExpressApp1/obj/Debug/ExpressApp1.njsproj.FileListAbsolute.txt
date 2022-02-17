@@ -1,0 +1,9 @@
+E:\learning\node\VS\ExpressApp1\ExpressApp1\obj\Debug\ExpressApp1.njsprojAssemblyReference.cache
+E:\learning\node\VS\ExpressApp1\ExpressApp1\obj\Debug\ExpressApp1.njsproj.CoreCompileInputs.cache
+E:\learning\node\VS\ExpressApp1\ExpressApp1\bin\Microsoft.NodejsTools.WebRole.dll
+E:\learning\node\RESTful\ExpressApp1\ExpressApp1\obj\Debug\ExpressApp1.njsprojAssemblyReference.cache
+E:\learning\node\RESTful\ExpressApp1\ExpressApp1\obj\Debug\ExpressApp1.njsproj.CoreCompileInputs.cache
+E:\learning\node\RESTful\ExpressApp1\ExpressApp1\bin\Microsoft.NodejsTools.WebRole.dll
+E:\web_sample\RESTful\ExpressApp1\obj\Debug\ExpressApp1.njsprojAssemblyReference.cache
+E:\web_sample\RESTful\ExpressApp1\obj\Debug\ExpressApp1.njsproj.CoreCompileInputs.cache
+E:\web_sample\RESTful\ExpressApp1\bin\Microsoft.NodejsTools.WebRole.dll

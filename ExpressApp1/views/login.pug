@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  if (login_status=='fail')
+    div(class='alert alert-danger mt-2',role='alert')= 'Account or password is wrong, please check!'
+  else if (login_status=='success') 
+    div(class='alert alert-success mt-2',role='alert')= 'Change update successfully!'
+  else if (login_status=='change_fail')
+    div(class='alert alert-danger mt-2',role='alert')= 'Change update fail!'
+  else if (login_status=='update')
+    div(class='alert alert-success mt-2',role='alert')= 'System is updating, please wait a few minutes.'
+    div(class='alert alert-warning mt-2',role='alert')= 'Make sure the power supply is constant to avoid potential damages.'
+  else if (login_status=='fw_update')
+    div(class='alert alert-success mt-2',role='alert')= 'Firmware update finish!'
+  else if (login_status=='restart')
+    div(class='alert alert-success mt-2',role='alert')= 'System restart, please wait a few minutes.'
+  else if (login_status=='default')
+    div(class='alert alert-success mt-2',role='alert')= 'System load default setting and restart, please wait a few minutes.'
+  form(action='/',method='post',class='pt-4')
+    div(class='form-group')
+      label(for='input_account')= 'Account'
+      input(type='text',class='form-control',name='ck_account',id='input_account')
+    div(class='form-group')
+      label(for='input_password')= 'Password'
+      input(type='password',class='form-control',name='ck_password',id='input_password')
+    button(type='submit',class='btn btn-primary')= 'Login'
+
+    
